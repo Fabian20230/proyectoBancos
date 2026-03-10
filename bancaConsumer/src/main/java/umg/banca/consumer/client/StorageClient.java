@@ -14,7 +14,7 @@ public class StorageClient {
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
     
-    private static final String STORAGE_URL = "https://7e0d9ogwzd.execute-api.us-east-1.amazonaws.com/default/guardarTransacciones";
+    private static final String STORAGE_URL = "https://webhook.site/0b5c23d0-85e2-4e00-8287-8ccb27195d70";
 
     public int sendToStorage(Transaccion transaccion) throws Exception {
         String jsonBody = objectMapper.writeValueAsString(transaccion);
