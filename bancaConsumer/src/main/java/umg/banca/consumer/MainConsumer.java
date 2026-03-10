@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 public class MainConsumer {
     private static final Logger logger = LogManager.getLogger(MainConsumer.class);
-    // Estos nombres deben coincidir con tus colas de la imagen (bac, banrural, bi, gyt)
+    
     private static final String[] QUEUES = {"bac", "banrural", "bi", "gyt"};
 
     public static void main(String[] args) {
@@ -28,7 +28,7 @@ public class MainConsumer {
                 logger.info("Suscrito a la cola: {}", queue);
             }
 
-            // Mantiene el programa corriendo
+            
             Thread.currentThread().join();
 
         } catch (Exception e) {
