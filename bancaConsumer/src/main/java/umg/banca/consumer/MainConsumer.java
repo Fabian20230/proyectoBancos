@@ -28,10 +28,9 @@ public class MainConsumer {
             for (String queue : QUEUES) {
                 
             	threadPool.submit(() -> {
-            		
 
             		try {
-                        // Importante: Cada hilo debe tener SU PROPIO Canal
+                        // Importante: Cada hilo tiene su propio Canal
                         Channel channel = connection.createChannel();
                         
                         //Contador para que un hilo no se sature

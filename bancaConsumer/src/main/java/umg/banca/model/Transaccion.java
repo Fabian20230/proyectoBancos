@@ -1,7 +1,10 @@
 package umg.banca.model;
 
 public class Transaccion {
+	
     private String idTransaccion;
+    private String nombre;
+	private String carnet;
     private double monto;
     private String moneda;
     private String cuentaOrigen;
@@ -11,6 +14,10 @@ public class Transaccion {
     public Transaccion() {}
 
     // Getters y Setters
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) {this.nombre = nombre; }
+    public String getCarnet() { return carnet; }
+    public void setCarnet(String carnet) {this.carnet = carnet; }
     public String getIdTransaccion() { return idTransaccion; }
     public void setIdTransaccion(String idTransaccion) { this.idTransaccion = idTransaccion; }
     public double getMonto() { return monto; }
