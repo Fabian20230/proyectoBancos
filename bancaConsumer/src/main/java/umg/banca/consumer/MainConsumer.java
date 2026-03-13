@@ -2,7 +2,7 @@ package umg.banca.consumer;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
-import umg.banca.producer.config.RabbitmqConfig; // Importamos tu config de la imagen
+import umg.banca.producer.config.RabbitmqConfig; 
 import umg.banca.consumer.handler.TransactionHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

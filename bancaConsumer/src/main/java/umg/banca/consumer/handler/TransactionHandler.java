@@ -5,6 +5,10 @@ import com.rabbitmq.client.DeliverCallback;
 import com.rabbitmq.client.Channel;
 import umg.banca.model.Transaccion;
 import umg.banca.consumer.client.StorageClient;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,21 +25,22 @@ public class TransactionHandler {
             try {
                 Transaccion t = objectMapper.readValue(message, Transaccion.class);
                 
-                // Concatenamos los datos y agregamos los campos
-                String idOriginal = t.getIdTransaccion();
-                t.setIdTransaccion(idOriginal + "-Fabian20230");
+                String fechaActual = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                String nuevoIdUnico = java.util.UUID.randomUUID().toString();
+                t.setIdTransaccion(nuevoIdUnico);
+                t.getDetalle().setFechaCreacion(fechaActual);
                 t.setNombre("Dimas Fabian Jimenez Lobos");
                 t.setCarnet("0905-20-6300");
                 
-                logger.info("Procesando TX: {} | Banco: {} | Estudiante: {} | Carnet: {}", 
-                            t.getIdTransaccion(), t.getBancoDestino(), t.getNombre(), t.getCarnet());
+                logger.info("Procesando TX: {} | Banco: {}", 
+                            t.getIdTransaccion(), t.getBancoDestino());
 
                 // Validacion de las respuestas del servidor
                 int statusCode = storageClient.sendToStorage(t);
                 
                 if (statusCode == 200 || statusCode == 201) {
                     logger.info("Transacción guardada exitosamente: {}", t.getIdTransaccion());
-                    Thread.sleep(300);
+                    Thread.sleep(200);
                     channel.basicAck(deliveryTag, false);
                     
                 } else if (statusCode == 400) {
@@ -54,7 +59,7 @@ public class TransactionHandler {
                 }
                 
             } catch (Exception e) {
-                logger.error("🚨 Error crítico procesando mensaje: {}. Reencolando...", e.getMessage());
+                logger.error("Error crítico procesando mensaje: {}. Reencolando...", e.getMessage());
                 channel.basicNack(deliveryTag, false, true);
             }
         };
