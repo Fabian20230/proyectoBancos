@@ -11,15 +11,24 @@ import org.apache.logging.log4j.Logger;
 public class RabbitmqPublisher implements MessagePublisher {
     private static final Logger logger = LogManager.getLogger(RabbitmqPublisher.class);
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final double MONTO_LIMITE = 4000.00;
 
+    
     @Override // El contrato de la interfaz
     public void publish(Transaccion t) throws Exception {
         try (Connection conn = RabbitmqConfig.getConnection(); 
              Channel channel = conn.createChannel()) {
             
-            // Lógica de cola dinámica por banco
-            String queueName = t.getBancoDestino().toLowerCase().trim().replace(" ", "_");
-            
+        	 String queueName;
+             if (t.getMonto() > MONTO_LIMITE) {
+                 queueName = "cola_rechazados";
+                 logger.warn("Transacción {} rechazada - monto {} excede el límite - estado: RECHAZADO", t.getIdTransaccion(), t.getMonto());
+             } else {
+                 // Lógica de cola dinámica por banco
+                 queueName = t.getBancoDestino().toLowerCase().trim().replace(" ", "_");
+                 logger.info("Transacción {} enrutada a cola por banco: {}", t.getIdTransaccion(), queueName);
+             }
+        	
             // Declaramos la cola (Durable para que no se borre)
             channel.queueDeclare(queueName, true, false, false, null);
             
