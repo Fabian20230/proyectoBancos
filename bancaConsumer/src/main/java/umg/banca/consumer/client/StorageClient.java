@@ -14,10 +14,10 @@ public class StorageClient {
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
     
-    private static final String STORAGE_URL = "https://7e0d9ogwzd.execute-api.us-east-1.amazonaws.com/default/guardarTransacciones";
+   // private static final String STORAGE_URL = "https://7e0d9ogwzd.execute-api.us-east-1.amazonaws.com/default/guardarTransacciones";
    
     //Api de Pruebas de envio
-    //private static final String STORAGE_URL = "https://webhook.site/81db31bb-3e8e-440d-a9ff-9028e7703aad";
+    private static final String STORAGE_URL = "https://webhook.site/f0cdabcf-4f48-481e-9c80-be4a9300ddd3";
     
     public int sendToStorage(Transaccion transaccion) throws Exception {
         String jsonBody = objectMapper.writeValueAsString(transaccion);

@@ -48,17 +48,17 @@ public class TransactionHandler {
                     logger.error("Error 400: Datos inválidos enviados para la TX: {}", t.getIdTransaccion());
                     channel.basicNack(deliveryTag, false, false);
                     
-                } else if (statusCode >= 500) {
+                }else if (statusCode >= 500) {
                     logger.error("Error 500: Error interno en el servidor. Reintentando TX: {}", t.getIdTransaccion());
                     channel.basicNack(deliveryTag, false, true);
-                    
-                } else {
-                    // En caso de otros errores Reencolamos
+                }else {
+                	 // En caso de otros errores Reencolamos
                     logger.warn("Respuesta inesperada del servidor ({}). Reencolando...", statusCode);
                     channel.basicNack(deliveryTag, false, true);
                 }
                 
-            } catch (Exception e) {
+                
+        } catch (Exception e) {
                 logger.error("Error crítico procesando mensaje: {}. Reencolando...", e.getMessage());
                 channel.basicNack(deliveryTag, false, true);
             }
