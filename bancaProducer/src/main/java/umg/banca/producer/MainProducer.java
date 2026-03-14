@@ -31,7 +31,7 @@ public class MainProducer {
                 for (Transaccion t : lote.getTransacciones()) {
                     publisher.publish(t);
                     
-                    Thread.sleep(200);
+                    Thread.sleep(100);
                 }
                 
                 logger.info("--- PROCESO FINALIZADO EXITOSAMENTE ---");
